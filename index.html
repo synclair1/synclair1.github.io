@@ -2,58 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Origin Gallery</title>
+    <title>Origin Gallery - Debug Mode</title>
     <style>
         body { font-family: sans-serif; background: #1e1e1e; color: white; padding: 20px; }
         .origin-section { margin-bottom: 40px; border-top: 2px solid #444; padding-top: 20px; }
         .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; }
-        .card { background: #2d2d2d; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-        .card img { width: 100px; height: 100px; margin-bottom: 10px; }
+        .card { background: #2d2d2d; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: transform 0.2s; }
+        .card:hover { transform: scale(1.05); }
+        .card img { width: 100px; height: 100px; image-rendering: pixelated; margin-bottom: 10px; }
         .card h3 { margin: 5px 0; font-size: 1.1rem; }
         .card p { color: #aaa; font-size: 0.9rem; margin: 0; }
         h1 { color: #00ff41; }
-        h2 { text-transform: uppercase; color: #ffcc00; }
+        h2 { text-transform: uppercase; color: #ffcc00; letter-spacing: 2px; }
+        
+        /* Debug Console Styles */
+        #debug-log { 
+            background: #000; color: #ff3333; padding: 15px; border: 2px solid red; 
+            margin-bottom: 20px; display: none; font-family: monospace; 
+        }
     </style>
 </head>
 <body>
+
     <h1>Player Origin Gallery</h1>
-    <div id="container">Loading players...</div>
+
+    <div id="debug-log">
+        <strong>⚠️ DEBUG ERROR:</strong>
+        <div id="debug-msg"></div>
+    </div>
+
+    <div id="container">🔄 Attempting to load player data...</div>
 
     <script>
+        const debugLog = document.getElementById('debug-log');
+        const debugMsg = document.getElementById('debug-msg');
+        const container = document.getElementById('container');
+
+        function showError(msg) {
+            debugLog.style.display = 'block';
+            debugMsg.innerText = msg;
+            container.innerHTML = "❌ Loading Failed.";
+        }
+
         async function loadGallery() {
-            const response = await fetch('all_players_master.json');
-            const master = await response.json();
-            const container = document.getElementById('container');
-            container.innerHTML = '';
+            // Updated Path: Ensure this matches your GitHub file structure exactly
+            const jsonPath = 'namegrabber/all_players_master.json';
 
-            // Group players by Origin
-            const origins = {};
-            Object.values(master).forEach(player => {
-                if (!origins[player.origin]) origins[player.origin] = [];
-                origins[player.origin].push(player);
-            });
+            try {
+                const response = await fetch(jsonPath);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP Error ${response.status}: Could not find '${jsonPath}'. Check your file paths!`);
+                }
 
-            // Create sections for each origin
-            for (const [origin, players] of Object.entries(origins)) {
-                const section = document.createElement('div');
-                section.className = 'origin-section';
-                section.innerHTML = `<h2>${origin}</h2><div class="gallery" id="gal-${origin}"></div>`;
-                container.appendChild(section);
+                const master = await response.json();
+                container.innerHTML = '';
 
-                const gal = document.getElementById(`gal-${origin}`);
-                players.forEach(p => {
-                    // Minotar API for 3D heads: https://minotar.net/cube/{uuid}/100.png
-                    const avatarUrl = `https://minotar.net/cube/${p.uuid}/100.png`;
-                    gal.innerHTML += `
-                        <div class="card">
-                            <img src="${avatarUrl}" alt="${p.name}">
-                            <h3>${p.name}</h3>
-                            <p>${p.class}</p>
-                        </div>
-                    `;
+                const origins = {};
+                Object.values(master).forEach(player => {
+                    if (!origins[player.origin]) origins[player.origin] = [];
+                    origins[player.origin].push(player);
                 });
+
+                if (Object.keys(origins).length === 0) {
+                    showError("The JSON file loaded, but it seems to be empty.");
+                    return;
+                }
+
+                for (const [origin, players] of Object.entries(origins)) {
+                    const section = document.createElement('div');
+                    section.className = 'origin-section';
+                    section.innerHTML = `<h2>${origin}</h2><div class="gallery" id="gal-${origin}"></div>`;
+                    container.appendChild(section);
+
+                    const gal = document.getElementById(`gal-${origin}`);
+                    players.forEach(p => {
+                        const avatarUrl = `https://minotar.net/cube/${p.uuid}/100.png`;
+                        gal.innerHTML += `
+                            <div class="card">
+                                <img src="${avatarUrl}" alt="${p.name}">
+                                <h3>${p.name}</h3>
+                                <p>${p.class}</p>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (err) {
+                showError(err.message);
+                console.error(err);
             }
         }
+
         loadGallery();
     </script>
 </body>
