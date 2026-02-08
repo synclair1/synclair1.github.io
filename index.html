@@ -2,12 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>The Origin Chronicles</title>
+    <title>Compendium</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Garamond:ital,wght@0,400;1,700&display=swap');
+
         :root {
-            --glow: #e0a3ff;
-            --bg: #0d0b14;
-            --panel: #1a1625;
+            --bg: #0a080f;
+            --panel: #161320;
+            /* Origin Colors */
+            --arachnid: #8a0303;     /* Blood Red */
+            --merling: #00f2ff;      /* Cyan Blue */
+            --blazeborn: #ff7700;    /* Orange */
+            --feline: #d2b48c;       /* Light Yellow Brown */
+            --enderian: #a200ff;     /* Purple */
+            --shulk: #d4a5ff;        /* Lighter Purple */
+            --phantom: #708090;      /* Blueish Grey */
+            --elytrian: #00a86b;     /* Jade Green */
+            --avian: #fffde0;        /* Yellowish White */
         }
 
         body { 
@@ -15,90 +26,128 @@
             background: var(--bg); 
             color: #f0e6d2; 
             padding: 40px;
-            background-image: radial-gradient(circle at center, #1b1429 0%, #0d0b14 100%);
+            background-image: radial-gradient(circle at center, #1b1429 0%, #0a080f 100%);
         }
 
         h1 { 
             text-align: center; 
-            font-size: 3.5rem; 
-            text-shadow: 0 0 20px var(--glow); 
-            letter-spacing: 5px;
+            font-family: 'Cinzel', serif;
+            font-size: 3.8rem; 
+            text-shadow: 0 0 25px rgba(224, 163, 255, 0.4); 
+            letter-spacing: 8px;
             color: #fff;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
 
         .origin-section { 
-            margin-bottom: 60px; 
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 15px;
-            border: 1px solid rgba(224, 163, 255, 0.2);
+            margin-bottom: 80px; 
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         h2 { 
+            font-family: 'Cinzel', serif;
             text-transform: uppercase; 
             color: #ffcc00; 
-            border-bottom: 2px solid #ffcc00;
+            border-bottom: 3px solid #ffcc00;
             display: inline-block;
-            padding-bottom: 5px;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px #000;
+            padding-bottom: 10px;
+            margin-bottom: 45px;
+            font-size: 2.2rem;
+            letter-spacing: 3px;
         }
 
         .gallery { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
-            gap: 25px; 
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+            gap: 40px; 
         }
 
         .card { 
             background: var(--panel); 
-            padding: 20px; 
-            border-radius: 10px; 
+            padding: 35px 20px; 
+            border-radius: 18px; 
             text-align: center; 
-            border: 1px solid #332b45;
-            transition: all 0.3s ease;
-            min-height: 220px;
-        }
-
-        .card:hover { 
-            transform: translateY(-10px); 
-            box-shadow: 0 0 25px rgba(224, 163, 255, 0.4);
-            border-color: var(--glow);
+            border: 2px solid #2a2438;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 380px;
+            position: relative;
         }
 
         .card img { 
-            width: 100px; 
-            height: auto; 
-            max-height: 120px;
+            width: auto; 
+            height: 190px; 
             image-rendering: pixelated; 
-            filter: drop-shadow(0 0 8px rgba(0,0,0,0.8));
-            margin-bottom: 15px; 
+            filter: drop-shadow(0 12px 18px rgba(0,0,0,0.9));
+            transition: transform 0.3s ease;
+            margin-bottom: 25px;
         }
+
+        .card:hover { transform: translateY(-15px); }
+        .card:hover img { transform: scale(1.1); }
 
         .card h3 { 
-            margin: 10px 0 5px 0; 
-            font-size: 1.3rem; 
+            margin: 10px 0 15px 0; 
+            font-family: 'Cinzel', serif;
             color: #fff;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
         }
 
-        .card p { 
-            color: #a099b3; 
-            font-size: 0.9rem; 
-            font-style: italic;
+        /* --- THE NEW CLASS BADGE STYLE --- */
+        .class-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 18px;
+            background: linear-gradient(145deg, #2a2438, #161320);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: #d1d1d1;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
+
+        /* Origin Specific Glows */
+        .card.arachnid { border-color: var(--arachnid); }
+        .card.arachnid .class-badge { color: #ff9999; border-color: var(--arachnid); box-shadow: 0 0 10px rgba(138, 3, 3, 0.4); }
+        .card.arachnid:hover { box-shadow: 0 0 35px var(--arachnid); }
+
+        .card.merling { border-color: var(--merling); }
+        .card.merling .class-badge { color: var(--merling); border-color: var(--merling); box-shadow: 0 0 10px rgba(0, 242, 255, 0.3); }
+        .card.merling:hover { box-shadow: 0 0 35px var(--merling); }
+
+        .card.blazeborn { border-color: var(--blazeborn); }
+        .card.blazeborn .class-badge { color: #ffcc99; border-color: var(--blazeborn); box-shadow: 0 0 10px rgba(255, 119, 0, 0.3); }
+        .card.blazeborn:hover { box-shadow: 0 0 35px var(--blazeborn); }
+
+        .card.enderian { border-color: var(--enderian); }
+        .card.enderian .class-badge { color: #e0a3ff; border-color: var(--enderian); box-shadow: 0 0 10px rgba(162, 0, 255, 0.3); }
+        .card.enderian:hover { box-shadow: 0 0 35px var(--enderian); }
+
+        .card.elytrian { border-color: var(--elytrian); }
+        .card.elytrian .class-badge { color: #99ffd6; border-color: var(--elytrian); box-shadow: 0 0 10px rgba(0, 168, 107, 0.3); }
+        .card.elytrian:hover { box-shadow: 0 0 35px var(--elytrian); }
+
+        /* Add more specific glows for feline, shulk, phantom, avian as needed using the same pattern */
+
     </style>
 </head>
 <body>
 
     <h1>The Origin Chronicles</h1>
-
-    <div id="container">Gathering the legends...</div>
+    <div id="container">📖 Opening the archives...</div>
 
     <script>
         async function loadGallery() {
             const container = document.getElementById('container');
-
             try {
                 const response = await fetch('all_players_master.json');
                 const master = await response.json();
@@ -106,8 +155,9 @@
 
                 const origins = {};
                 Object.values(master).forEach(p => {
-                    if (!origins[p.origin]) origins[p.origin] = [];
-                    origins[p.origin].push(p);
+                    const org = (p.origin || 'Human').toLowerCase();
+                    if (!origins[org]) origins[org] = [];
+                    origins[org].push(p);
                 });
 
                 for (const [origin, players] of Object.entries(origins)) {
@@ -119,30 +169,26 @@
                     const gal = document.getElementById(`gal-${origin}`);
                     players.forEach(p => {
                         const uuid = p.uuid;
-                        // Tier 1: 3D Cube
                         const cubeUrl = `https://minotar.net/cube/${uuid}/100.png`;
-                        // Tier 2: Body Fallback
                         const bodyUrl = `https://minotar.net/body/${uuid}/100.png`;
-                        // Tier 3: Steve Head Fallback
-                        const steveUrl = `https://minotar.net/cube/char/100.png`;
+                        const steveUrl = `https://minotar.net/body/char/100.png`;
 
                         gal.innerHTML += `
-                            <div class="card">
+                            <div class="card ${origin.toLowerCase()}">
                                 <img src="${cubeUrl}" 
                                      alt="${p.name}"
-                                     onerror="if(this.src != '${bodyUrl}'){ this.src='${bodyUrl}'; } else { this.src='${steveUrl}'; }">
+                                     onerror="if(this.src.includes('cube')){ this.src='${bodyUrl}'; } else if(this.src.includes('body') && !this.src.includes('char')){ this.src='${steveUrl}'; }">
                                 <h3>${p.name}</h3>
-                                <p>${p.class}</p>
+                                <div class="class-badge">${p.class}</div>
                             </div>
                         `;
                     });
                 }
             } catch (err) {
-                container.innerHTML = "❌ Failed to load players: " + err.message;
+                container.innerHTML = "❌ The archives are lost: " + err.message;
             }
         }
         loadGallery();
     </script>
 </body>
 </html>
-
