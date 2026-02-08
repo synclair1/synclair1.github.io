@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Origin Arcanum</title>
+    <title>The Beastiary</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Garamond:ital,wght@0,400;1,700&display=swap');
 
@@ -70,7 +70,7 @@
         }
 
         .title-underline {
-            width: 300px;
+            width: 350px;
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--gold), transparent);
             margin: 15px 0;
@@ -80,7 +80,7 @@
         .subtitle { 
             font-family: 'Cinzel', serif; 
             font-size: 0.75rem; 
-            letter-spacing: 5px; 
+            letter-spacing: 4px; 
             color: #8b949e; 
             text-transform: uppercase;
         }
@@ -143,10 +143,20 @@
 
         .player-row:hover { 
             transform: scale(1.02); 
-            background: rgba(25, 30, 40, 0.8); 
-            border-color: rgba(255,255,255,0.2);
+            border-color: rgba(255, 255, 255, 0.2);
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
+
+        /* DYNAMIC HOVER TINTS (10% Opacity) */
+        .player-row.arachnid:hover { background: rgba(255, 51, 51, 0.1); }
+        .player-row.merling:hover { background: rgba(0, 242, 255, 0.1); }
+        .player-row.blazeborn:hover { background: rgba(255, 153, 0, 0.1); }
+        .player-row.feline:hover { background: rgba(230, 190, 138, 0.1); }
+        .player-row.enderian:hover { background: rgba(188, 102, 255, 0.1); }
+        .player-row.shulk:hover { background: rgba(212, 165, 255, 0.1); }
+        .player-row.phantom:hover { background: rgba(148, 163, 184, 0.1); }
+        .player-row.elytrian:hover { background: rgba(46, 204, 113, 0.1); }
+        .player-row.avian:hover { background: rgba(255, 255, 255, 0.1); }
 
         .player-avatar {
             height: 85px; width: auto;
@@ -195,15 +205,14 @@
 
         async function init() {
             try {
-                // Fetching from ROOT folder
+                // Fetching from root folder
                 const response = await fetch('all_players_master.json');
                 allPlayerData = await response.json();
                 
-                // Get unique origins, sort them
                 const origins = [...new Set(Object.values(allPlayerData).map(p => (p.origin || "Unknown")))].sort();
                 
                 setupTabs(origins);
-                renderOrigin(origins[0]); // Load first origin by default
+                renderOrigin(origins[0]); 
             } catch (err) {
                 document.getElementById('container').innerHTML = `<div style="text-align:center; color:red; font-family:Cinzel; padding:50px;">⚠️ Archivist Error: ${err.message}</div>`;
             }
@@ -215,7 +224,6 @@
                 const btn = document.createElement('button');
                 const originKey = origin.toLowerCase();
                 
-                // Assign originKey as class for custom color hover
                 btn.className = `tab-btn ${originKey} ${index === 0 ? 'active' : ''}`;
                 btn.innerText = origin;
                 
@@ -237,10 +245,9 @@
             container.innerHTML = '';
             const originKey = filterOrigin.toLowerCase();
             
-            // Get color from CSS variable for the header
             const originColor = getComputedStyle(document.documentElement).getPropertyValue(`--${originKey}`).trim();
 
-            // Update Header Appearance
+            // HEADER DYNAMIC TITLES
             titleH1.innerText = filterOrigin;
             titleH1.style.color = originColor || 'var(--gold)';
             titleH1.style.textShadow = `0 0 25px ${originColor}55`;
@@ -259,7 +266,7 @@
 
                 const row = document.createElement('div');
                 row.className = `player-row ${originKey}`;
-                row.style.animationDelay = `${index * 0.06}s`; // Staggered entrance
+                row.style.animationDelay = `${index * 0.06}s`; 
                 
                 row.innerHTML = `
                     <img class="player-avatar" src="${renderUrl}" 
