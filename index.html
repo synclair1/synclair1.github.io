@@ -2,15 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>The Origin Arcanum</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Compendium Beastiary</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Garamond&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Garamond:ital,wght@0,400;1,700&display=swap');
 
         :root {
             --bg: #050508;
-            --panel: #0d1117;
+            --panel: rgba(13, 17, 23, 0.7);
             --gold: #ffcc00;
-            --tab-active: #161b22;
+            --tab-active: #1c1f26;
+            
+            /* Origin Colors */
+            --arachnid: #ff2a2a; --merling: #00f2ff; --blazeborn: #ff7700;
+            --feline: #d2b48c; --enderian: #a200ff; --shulk: #d4a5ff;
+            --phantom: #708090; --elytrian: #00a86b; --avian: #fffde0;
         }
 
         body { 
@@ -18,158 +24,166 @@
             background: var(--bg); 
             color: #c9d1d9; 
             margin: 0;
-            padding: 0;
-            /* Starry background effect */
-            background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
-            background-size: 550px 550px, 350px 350px;
+            background-image: radial-gradient(circle at center, #111 0%, #050508 100%);
             background-attachment: fixed;
+            overflow-x: hidden;
         }
 
-        header {
-            text-align: center;
-            padding: 60px 20px;
+        header { 
+            text-align: center; 
+            padding: 40px 20px; 
+            border-bottom: 1px solid rgba(255,204,0,0.1); 
+            min-height: 200px;
         }
 
-        .logo-symbol { color: var(--gold); font-size: 3rem; margin-bottom: 10px; }
-        
+        #origin-icon {
+            height: 100px;
+            width: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.2));
+            transition: opacity 0.5s ease;
+        }
+
         h1 { 
-            font-family: 'Cinzel', serif;
-            font-size: 3rem;
-            letter-spacing: 10px;
-            color: var(--gold);
-            margin: 0;
+            font-family: 'Cinzel', serif; 
+            font-size: 3rem; 
+            letter-spacing: 10px; 
+            color: var(--gold); 
+            margin: 0; 
+            text-shadow: 0 0 15px rgba(255,204,0,0.3);
             text-transform: uppercase;
         }
 
-        .subtitle {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            letter-spacing: 4px;
-            color: #8b949e;
-            margin-top: 10px;
+        .subtitle { 
+            font-family: 'Cinzel', serif; 
+            font-size: 0.8rem; 
+            letter-spacing: 5px; 
+            color: #8b949e; 
+            margin-top: 10px; 
         }
 
-        /* TAB NAVIGATION */
+        /* NAV TABS */
         nav {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            padding: 20px;
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
+            padding: 20px; position: sticky; top: 0; z-index: 100;
+            background: rgba(5, 5, 8, 0.9); backdrop-filter: blur(15px);
             border-bottom: 1px solid #30363d;
-            background: rgba(13, 17, 23, 0.8);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
         }
 
         .tab-btn {
-            background: transparent;
-            border: none;
-            color: #8b949e;
-            font-family: 'Cinzel', serif;
-            font-size: 1rem;
-            cursor: pointer;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: all 0.3s;
+            background: transparent; border: 1px solid #30363d; color: #8b949e;
+            font-family: 'Cinzel', serif; font-size: 0.85rem; cursor: pointer;
+            padding: 8px 18px; border-radius: 4px; transition: 0.3s;
+            text-transform: uppercase;
         }
 
-        .tab-btn:hover { color: #fff; }
-        .tab-btn.active {
-            background: var(--tab-active);
-            color: var(--gold);
-            box-shadow: inset 0 0 10px rgba(255, 204, 0, 0.1);
+        .tab-btn:hover { border-color: var(--gold); color: #fff; }
+        .tab-btn.active { 
+            background: var(--tab-active); 
+            color: var(--gold); 
+            border-color: var(--gold); 
+            box-shadow: 0 0 10px rgba(255,204,0,0.2); 
         }
 
-        /* PLAYER GALLERY */
-        #container {
-            max-width: 1200px;
-            margin: 40px auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 30px;
-            padding: 20px;
+        /* CONTAINER */
+        #container { 
+            max-width: 850px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+            animation: fadeIn 0.8s ease;
         }
 
-        .card {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* PLAYER ROWS */
+        .player-row {
+            display: flex; align-items: center;
             background: var(--panel);
             border: 1px solid #30363d;
-            border-radius: 12px;
-            padding: 25px 15px;
-            text-align: center;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--gold);
-        }
-
-        .card img {
-            height: 120px;
-            width: auto;
-            image-rendering: pixelated;
-            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+            border-radius: 8px;
             margin-bottom: 15px;
+            padding: 12px 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card h3 {
-            font-family: 'Cinzel', serif;
-            margin: 10px 0;
-            font-size: 1.3rem;
-            color: #f0f6fc;
+        .player-row::before {
+            content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
         }
 
-        .card p {
-            font-style: italic;
-            color: #8b949e;
-            font-size: 0.9rem;
-            margin: 0;
+        .player-row:hover { 
+            transform: scale(1.02); 
+            border-color: rgba(255,255,255,0.2); 
+            background: rgba(25, 30, 40, 0.8); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
 
-        .loading { text-align: center; font-family: 'Cinzel'; padding: 50px; }
+        .player-avatar {
+            height: 90px; width: auto;
+            margin-right: 25px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+            image-rendering: pixelated;
+        }
+
+        .player-info { flex-grow: 1; }
+        .player-name { font-family: 'Cinzel', serif; font-size: 1.6rem; color: #fff; margin: 0; }
+        .player-class { 
+            font-family: 'Cinzel', serif; font-size: 0.75rem; 
+            letter-spacing: 2px; text-transform: uppercase;
+            color: var(--gold); opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        /* Origin Specific Glow Lines */
+        .player-row.arachnid::before { background: var(--arachnid); box-shadow: 0 0 15px var(--arachnid); }
+        .player-row.merling::before { background: var(--merling); box-shadow: 0 0 15px var(--merling); }
+        .player-row.blazeborn::before { background: var(--blazeborn); box-shadow: 0 0 15px var(--blazeborn); }
+        .player-row.feline::before { background: var(--feline); box-shadow: 0 0 15px var(--feline); }
+        .player-row.enderian::before { background: var(--enderian); box-shadow: 0 0 15px var(--enderian); }
+        .player-row.shulk::before { background: var(--shulk); box-shadow: 0 0 15px var(--shulk); }
+        .player-row.phantom::before { background: var(--phantom); box-shadow: 0 0 15px var(--phantom); }
+        .player-row.elytrian::before { background: var(--elytrian); box-shadow: 0 0 15px var(--elytrian); }
+        .player-row.avian::before { background: var(--avian); box-shadow: 0 0 15px var(--avian); }
+
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-symbol">❂</div>
-        <h1>The Arcanum</h1>
-        <div class="subtitle">PLAYER ACCREDITATION & RANKINGS</div>
+        <img id="origin-icon" src="" alt="" style="display: none;">
+        <h1 id="origin-title">The Arcanum</h1>
+        <div class="subtitle" id="origin-subtitle">Official Origin Accreditation Records</div>
     </header>
 
-    <nav id="origin-tabs">
-        </nav>
+    <nav id="origin-tabs"></nav>
 
-    <div id="container" class="loading">📖 Consulting the records...</div>
+    <div id="container"></div>
 
     <script>
         let allPlayerData = {};
 
         async function init() {
             try {
+                // Fetch the master JSON
                 const response = await fetch('all_players_master.json');
                 allPlayerData = await response.json();
                 
-                // Get unique origins
-                const origins = [...new Set(Object.values(allPlayerData).map(p => p.origin))].sort();
+                // Get unique origins, cleanup, and sort
+                const origins = [...new Set(Object.values(allPlayerData).map(p => (p.origin || "Unknown")))].sort();
                 
                 setupTabs(origins);
-                renderOrigin(origins[0]); // Show first origin by default
+                renderOrigin(origins[0]); // Load the first origin by default
             } catch (err) {
-                document.getElementById('container').innerText = "Failed to load: " + err.message;
+                document.getElementById('container').innerHTML = `<div style="text-align:center; color:red; font-family:Cinzel;">⚠️ Failed to load the scrolls: ${err.message}</div>`;
             }
         }
 
         function setupTabs(origins) {
             const nav = document.getElementById('origin-tabs');
-            nav.innerHTML = '';
-
-            // Add an "All" button if you want, or just stick to origins
             origins.forEach((origin, index) => {
                 const btn = document.createElement('button');
                 btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
@@ -185,22 +199,38 @@
 
         function renderOrigin(filterOrigin) {
             const container = document.getElementById('container');
+            const iconImg = document.getElementById('origin-icon');
+            const titleH1 = document.getElementById('origin-title');
+            
+            // Reset Container for animation trigger
+            container.style.animation = 'none';
+            container.offsetHeight; // Trigger reflow
+            container.style.animation = null;
             container.innerHTML = '';
 
+            // Update Header Icon & Title
+            // Folder structure: origins/name.png
+            const iconPath = `origins/${filterOrigin.toLowerCase()}.png`;
+            iconImg.src = iconPath;
+            iconImg.style.display = 'inline-block';
+            titleH1.innerText = filterOrigin;
+
+            // Filter players
             const players = Object.values(allPlayerData).filter(p => p.origin === filterOrigin);
 
             players.forEach(p => {
-                const uuid = p.uuid;
-                const cubeUrl = `https://minotar.net/cube/${uuid}/100.png`;
-                const bodyUrl = `https://minotar.net/body/${uuid}/100.png`;
-                const steveUrl = `https://minotar.net/body/char/100.png`;
+                // Using Crafty.gg 3D Bust for high-quality rendering
+                const renderUrl = `https://render.crafty.gg/3d/bust/${p.uuid}?shadow=true`;
+                const fallbackUrl = `https://render.crafty.gg/3d/bust/char?shadow=true`;
 
                 container.innerHTML += `
-                    <div class="card">
-                        <img src="${cubeUrl}" 
-                             onerror="if(this.src.includes('cube')){ this.src='${bodyUrl}'; } else if(this.src.includes('body') && !this.src.includes('char')){ this.src='${steveUrl}'; }">
-                        <h3>${p.name}</h3>
-                        <p>${p.class}</p>
+                    <div class="player-row ${p.origin.toLowerCase()}">
+                        <img class="player-avatar" src="${renderUrl}" 
+                             onerror="this.onerror=null;this.src='${fallbackUrl}';" alt="${p.name}">
+                        <div class="player-info">
+                            <h3 class="player-name">${p.name}</h3>
+                            <div class="player-class">${p.class}</div>
+                        </div>
                     </div>
                 `;
             });
