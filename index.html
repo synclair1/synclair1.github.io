@@ -100,7 +100,7 @@
             const container = document.getElementById('container');
 
             try {
-                const response = await fetch('namegrabber/all_players_master.json');
+                const response = await fetch('all_players_master.json');
                 const master = await response.json();
                 container.innerHTML = '';
 
@@ -145,3 +145,4 @@
     </script>
 </body>
 </html>
+
