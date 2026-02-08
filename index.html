@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Compendium Beastiary</title>
+    <title>The Origin Arcanum</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Garamond:ital,wght@0,400;1,700&display=swap');
 
@@ -14,9 +14,15 @@
             --tab-active: #1c1f26;
             
             /* Origin Colors */
-            --arachnid: #ff2a2a; --merling: #00f2ff; --blazeborn: #ff7700;
-            --feline: #d2b48c; --enderian: #a200ff; --shulk: #d4a5ff;
-            --phantom: #708090; --elytrian: #00a86b; --avian: #fffde0;
+            --arachnid: #ff3333;
+            --merling: #00f2ff;
+            --blazeborn: #ff9900;
+            --feline: #e6be8a;
+            --enderian: #bc66ff;
+            --shulk: #d4a5ff;
+            --phantom: #94a3b8;
+            --elytrian: #2ecc71;
+            --avian: #ffffff;
         }
 
         body { 
@@ -29,40 +35,57 @@
             overflow-x: hidden;
         }
 
+        /* HEADER SECTION */
         header { 
             text-align: center; 
-            padding: 40px 20px; 
-            border-bottom: 1px solid rgba(255,204,0,0.1); 
-            min-height: 200px;
+            padding: 60px 20px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         #origin-icon {
-            height: 100px;
+            height: 110px;
             width: auto;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.2));
-            transition: opacity 0.5s ease;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
+            transition: all 0.5s ease-in-out;
+            animation: pulse 4s infinite ease-in-out;
         }
 
-        h1 { 
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(0,0,0,0.8)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(255,204,0,0.2)); }
+        }
+
+        #origin-title { 
             font-family: 'Cinzel', serif; 
-            font-size: 3rem; 
-            letter-spacing: 10px; 
-            color: var(--gold); 
+            font-size: 3.5rem; 
+            letter-spacing: 12px; 
             margin: 0; 
-            text-shadow: 0 0 15px rgba(255,204,0,0.3);
             text-transform: uppercase;
+            color: var(--gold);
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+
+        .title-underline {
+            width: 300px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 15px 0;
+            transition: background 0.5s ease;
         }
 
         .subtitle { 
             font-family: 'Cinzel', serif; 
-            font-size: 0.8rem; 
+            font-size: 0.75rem; 
             letter-spacing: 5px; 
             color: #8b949e; 
-            margin-top: 10px; 
+            text-transform: uppercase;
         }
 
-        /* NAV TABS */
+        /* NAVIGATION TABS */
         nav {
             display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
             padding: 20px; position: sticky; top: 0; z-index: 100;
@@ -72,8 +95,8 @@
 
         .tab-btn {
             background: transparent; border: 1px solid #30363d; color: #8b949e;
-            font-family: 'Cinzel', serif; font-size: 0.85rem; cursor: pointer;
-            padding: 8px 18px; border-radius: 4px; transition: 0.3s;
+            font-family: 'Cinzel', serif; font-size: 0.8rem; cursor: pointer;
+            padding: 8px 16px; border-radius: 4px; transition: 0.3s;
             text-transform: uppercase;
         }
 
@@ -82,20 +105,14 @@
             background: var(--tab-active); 
             color: var(--gold); 
             border-color: var(--gold); 
-            box-shadow: 0 0 10px rgba(255,204,0,0.2); 
+            box-shadow: 0 0 10px rgba(255,204,0,0.1); 
         }
 
-        /* CONTAINER */
+        /* CONTENT CONTAINER */
         #container { 
-            max-width: 850px; 
+            max-width: 800px; 
             margin: 40px auto; 
             padding: 0 20px; 
-            animation: fadeIn 0.8s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* PLAYER ROWS */
@@ -108,7 +125,13 @@
             padding: 12px 25px;
             transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
+            animation: slideIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .player-row::before {
@@ -117,28 +140,27 @@
 
         .player-row:hover { 
             transform: scale(1.02); 
-            border-color: rgba(255,255,255,0.2); 
             background: rgba(25, 30, 40, 0.8); 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.2);
         }
 
         .player-avatar {
-            height: 90px; width: auto;
+            height: 85px; width: auto;
             margin-right: 25px;
             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
             image-rendering: pixelated;
         }
 
         .player-info { flex-grow: 1; }
-        .player-name { font-family: 'Cinzel', serif; font-size: 1.6rem; color: #fff; margin: 0; }
+        .player-name { font-family: 'Cinzel', serif; font-size: 1.5rem; color: #fff; margin: 0; }
         .player-class { 
-            font-family: 'Cinzel', serif; font-size: 0.75rem; 
+            font-family: 'Cinzel', serif; font-size: 0.7rem; 
             letter-spacing: 2px; text-transform: uppercase;
             color: var(--gold); opacity: 0.8;
-            margin-top: 4px;
+            margin-top: 3px;
         }
 
-        /* Origin Specific Glow Lines */
+        /* Origin Dynamic Colors for Rows */
         .player-row.arachnid::before { background: var(--arachnid); box-shadow: 0 0 15px var(--arachnid); }
         .player-row.merling::before { background: var(--merling); box-shadow: 0 0 15px var(--merling); }
         .player-row.blazeborn::before { background: var(--blazeborn); box-shadow: 0 0 15px var(--blazeborn); }
@@ -156,7 +178,8 @@
     <header>
         <img id="origin-icon" src="" alt="" style="display: none;">
         <h1 id="origin-title">The Arcanum</h1>
-        <div class="subtitle" id="origin-subtitle">Official Compendium Beastiary</div>
+        <div class="title-underline"></div>
+        <div class="subtitle">Official Accreditation Records</div>
     </header>
 
     <nav id="origin-tabs"></nav>
@@ -168,17 +191,16 @@
 
         async function init() {
             try {
-                // Fetch the master JSON
+                // CHANGED: Now looks for the file in the ROOT folder
                 const response = await fetch('all_players_master.json');
                 allPlayerData = await response.json();
                 
-                // Get unique origins, cleanup, and sort
                 const origins = [...new Set(Object.values(allPlayerData).map(p => (p.origin || "Unknown")))].sort();
                 
                 setupTabs(origins);
-                renderOrigin(origins[0]); // Load the first origin by default
+                renderOrigin(origins[0]); 
             } catch (err) {
-                document.getElementById('container').innerHTML = `<div style="text-align:center; color:red; font-family:Cinzel;">⚠️ Failed to load the scrolls: ${err.message}</div>`;
+                document.getElementById('container').innerHTML = `<div style="text-align:center; color:red; font-family:Cinzel;">⚠️ Failed to load records from root: ${err.message}</div>`;
             }
         }
 
@@ -201,38 +223,39 @@
             const container = document.getElementById('container');
             const iconImg = document.getElementById('origin-icon');
             const titleH1 = document.getElementById('origin-title');
+            const underline = document.querySelector('.title-underline');
             
-            // Reset Container for animation trigger
-            container.style.animation = 'none';
-            container.offsetHeight; // Trigger reflow
-            container.style.animation = null;
             container.innerHTML = '';
+            const originKey = filterOrigin.toLowerCase();
+            const originColor = getComputedStyle(document.documentElement).getPropertyValue(`--${originKey}`).trim();
 
-            // Update Header Icon & Title
-            // Folder structure: origins/name.png
-            const iconPath = `origins/${filterOrigin.toLowerCase()}.png`;
-            iconImg.src = iconPath;
-            iconImg.style.display = 'inline-block';
             titleH1.innerText = filterOrigin;
+            titleH1.style.color = originColor || 'var(--gold)';
+            titleH1.style.textShadow = `0 0 20px ${originColor}44`;
+            underline.style.background = `linear-gradient(90deg, transparent, ${originColor || 'var(--gold)'}, transparent)`;
 
-            // Filter players
+            iconImg.src = `origins/${originKey}.png`;
+            iconImg.style.display = 'block';
+
             const players = Object.values(allPlayerData).filter(p => p.origin === filterOrigin);
 
-            players.forEach(p => {
-                // Using Crafty.gg 3D Bust for high-quality rendering
+            players.forEach((p, index) => {
                 const renderUrl = `https://render.crafty.gg/3d/bust/${p.uuid}?shadow=true`;
                 const fallbackUrl = `https://render.crafty.gg/3d/bust/char?shadow=true`;
 
-                container.innerHTML += `
-                    <div class="player-row ${p.origin.toLowerCase()}">
-                        <img class="player-avatar" src="${renderUrl}" 
-                             onerror="this.onerror=null;this.src='${fallbackUrl}';" alt="${p.name}">
-                        <div class="player-info">
-                            <h3 class="player-name">${p.name}</h3>
-                            <div class="player-class">${p.class}</div>
-                        </div>
+                const row = document.createElement('div');
+                row.className = `player-row ${originKey}`;
+                row.style.animationDelay = `${index * 0.05}s`; 
+                
+                row.innerHTML = `
+                    <img class="player-avatar" src="${renderUrl}" 
+                         onerror="this.onerror=null;this.src='${fallbackUrl}';" alt="${p.name}">
+                    <div class="player-info">
+                        <h3 class="player-name">${p.name}</h3>
+                        <div class="player-class">${p.class}</div>
                     </div>
                 `;
+                container.appendChild(row);
             });
         }
 
@@ -240,4 +263,3 @@
     </script>
 </body>
 </html>
-
