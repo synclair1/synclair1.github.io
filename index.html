@@ -16,7 +16,7 @@
             /* Origin Colors */
             --arachnid: #ff3333; --merling: #00f2ff; --blazeborn: #ff9900;
             --feline: #e6be8a; --enderian: #bc66ff; --shulk: #d4a5ff;
-            --phantom: #94a3b8; --elytrian: #2ecc71; --avian: #ffffff;
+            --phantom: #6d86ab; --elytrian: #2ecc71; --avian: #ffffff;
         }
 
         body { 
@@ -24,13 +24,11 @@
             background: var(--bg); 
             color: #c9d1d9; 
             margin: 0;
-            /* Subtle radial glow to prevent "flat" black */
             background-image: radial-gradient(circle at 50% -20%, #151520 0%, #050508 60%);
             background-attachment: fixed;
             overflow-x: hidden;
         }
 
-        /* HEADER SECTION */
         header { 
             text-align: center; 
             padding: 80px 20px 40px; 
@@ -82,7 +80,6 @@
             text-transform: uppercase;
         }
 
-        /* NAVIGATION TABS */
         nav {
             display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;
             padding: 25px; position: sticky; top: 0; z-index: 100;
@@ -107,18 +104,16 @@
         .tab-btn.active { color: var(--gold); }
         .tab-btn.active::after { width: 80%; }
 
-        /* Specific Nav Colors */
         .tab-btn.arachnid.active { color: var(--arachnid); text-shadow: 0 0 10px var(--arachnid); }
         .tab-btn.merling.active { color: var(--merling); text-shadow: 0 0 10px var(--merling); }
         .tab-btn.blazeborn.active { color: var(--blazeborn); text-shadow: 0 0 10px var(--blazeborn); }
         .tab-btn.feline.active { color: var(--feline); text-shadow: 0 0 10px var(--feline); }
         .tab-btn.enderian.active { color: var(--enderian); text-shadow: 0 0 10px var(--enderian); }
         .tab-btn.shulk.active { color: var(--shulk); text-shadow: 0 0 10px var(--shulk); }
-        .tab-btn.phantom.active { color: var(--phantom); text-shadow: 0 0 10px var(--phantom); }
+        .tab-btn.phantom.active { color: var(--phantom); text-shadow: 0 0 15px var(--phantom); }
         .tab-btn.elytrian.active { color: var(--elytrian); text-shadow: 0 0 10px var(--elytrian); }
         .tab-btn.avian.active { color: var(--avian); text-shadow: 0 0 10px var(--avian); }
 
-        /* PLAYER ROWS */
         #container { max-width: 850px; margin: 50px auto; padding-bottom: 100px; }
 
         .player-row {
@@ -178,7 +173,6 @@
             margin-top: 5px;
         }
 
-        /* Origin specific accents */
         .player-row.arachnid::before { background: var(--arachnid); box-shadow: 0 0 15px var(--arachnid); }
         .player-row.merling::before { background: var(--merling); box-shadow: 0 0 15px var(--merling); }
         .player-row.blazeborn::before { background: var(--blazeborn); box-shadow: 0 0 15px var(--blazeborn); }
