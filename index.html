@@ -45,17 +45,17 @@
         }
 
         #origin-icon {
-            height: 110px;
+            height: 115px;
             width: auto;
             margin-bottom: 15px;
             filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
-            transition: all 0.5s ease-in-out;
             animation: pulse 4s infinite ease-in-out;
+            transition: all 0.5s ease;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(0,0,0,0.8)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(255,204,0,0.2)); }
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; }
         }
 
         #origin-title { 
@@ -100,13 +100,16 @@
             text-transform: uppercase;
         }
 
-        .tab-btn:hover { border-color: var(--gold); color: #fff; }
-        .tab-btn.active { 
-            background: var(--tab-active); 
-            color: var(--gold); 
-            border-color: var(--gold); 
-            box-shadow: 0 0 10px rgba(255,204,0,0.1); 
-        }
+        /* DYNAMIC HOVER COLORS FOR TABS */
+        .tab-btn.arachnid:hover, .tab-btn.arachnid.active { color: var(--arachnid); border-color: var(--arachnid); box-shadow: 0 0 10px rgba(255, 51, 51, 0.2); }
+        .tab-btn.merling:hover, .tab-btn.merling.active { color: var(--merling); border-color: var(--merling); box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
+        .tab-btn.blazeborn:hover, .tab-btn.blazeborn.active { color: var(--blazeborn); border-color: var(--blazeborn); box-shadow: 0 0 10px rgba(255, 153, 0, 0.2); }
+        .tab-btn.feline:hover, .tab-btn.feline.active { color: var(--feline); border-color: var(--feline); box-shadow: 0 0 10px rgba(230, 190, 138, 0.2); }
+        .tab-btn.enderian:hover, .tab-btn.enderian.active { color: var(--enderian); border-color: var(--enderian); box-shadow: 0 0 10px rgba(188, 102, 255, 0.2); }
+        .tab-btn.shulk:hover, .tab-btn.shulk.active { color: var(--shulk); border-color: var(--shulk); box-shadow: 0 0 10px rgba(212, 165, 255, 0.2); }
+        .tab-btn.phantom:hover, .tab-btn.phantom.active { color: var(--phantom); border-color: var(--phantom); box-shadow: 0 0 10px rgba(148, 163, 184, 0.2); }
+        .tab-btn.elytrian:hover, .tab-btn.elytrian.active { color: var(--elytrian); border-color: var(--elytrian); box-shadow: 0 0 10px rgba(46, 204, 113, 0.2); }
+        .tab-btn.avian:hover, .tab-btn.avian.active { color: var(--avian); border-color: var(--avian); box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
 
         /* CONTENT CONTAINER */
         #container { 
@@ -130,7 +133,7 @@
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-10px); }
+            from { opacity: 0; transform: translateX(-15px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
@@ -142,25 +145,26 @@
             transform: scale(1.02); 
             background: rgba(25, 30, 40, 0.8); 
             border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
 
         .player-avatar {
             height: 85px; width: auto;
             margin-right: 25px;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.7));
             image-rendering: pixelated;
         }
 
         .player-info { flex-grow: 1; }
-        .player-name { font-family: 'Cinzel', serif; font-size: 1.5rem; color: #fff; margin: 0; }
+        .player-name { font-family: 'Cinzel', serif; font-size: 1.55rem; color: #fff; margin: 0; }
         .player-class { 
-            font-family: 'Cinzel', serif; font-size: 0.7rem; 
-            letter-spacing: 2px; text-transform: uppercase;
-            color: var(--gold); opacity: 0.8;
-            margin-top: 3px;
+            font-family: 'Cinzel', serif; font-size: 0.75rem; 
+            letter-spacing: 2.5px; text-transform: uppercase;
+            color: var(--gold); opacity: 0.9;
+            margin-top: 4px;
         }
 
-        /* Origin Dynamic Colors for Rows */
+        /* Origin Dynamic Glow Lines */
         .player-row.arachnid::before { background: var(--arachnid); box-shadow: 0 0 15px var(--arachnid); }
         .player-row.merling::before { background: var(--merling); box-shadow: 0 0 15px var(--merling); }
         .player-row.blazeborn::before { background: var(--blazeborn); box-shadow: 0 0 15px var(--blazeborn); }
@@ -191,16 +195,17 @@
 
         async function init() {
             try {
-                // CHANGED: Now looks for the file in the ROOT folder
+                // Fetching from ROOT folder
                 const response = await fetch('all_players_master.json');
                 allPlayerData = await response.json();
                 
+                // Get unique origins, sort them
                 const origins = [...new Set(Object.values(allPlayerData).map(p => (p.origin || "Unknown")))].sort();
                 
                 setupTabs(origins);
-                renderOrigin(origins[0]); 
+                renderOrigin(origins[0]); // Load first origin by default
             } catch (err) {
-                document.getElementById('container').innerHTML = `<div style="text-align:center; color:red; font-family:Cinzel;">⚠️ Failed to load records from root: ${err.message}</div>`;
+                document.getElementById('container').innerHTML = `<div style="text-align:center; color:red; font-family:Cinzel; padding:50px;">⚠️ Archivist Error: ${err.message}</div>`;
             }
         }
 
@@ -208,8 +213,12 @@
             const nav = document.getElementById('origin-tabs');
             origins.forEach((origin, index) => {
                 const btn = document.createElement('button');
-                btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
+                const originKey = origin.toLowerCase();
+                
+                // Assign originKey as class for custom color hover
+                btn.className = `tab-btn ${originKey} ${index === 0 ? 'active' : ''}`;
                 btn.innerText = origin;
+                
                 btn.onclick = () => {
                     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
@@ -227,16 +236,21 @@
             
             container.innerHTML = '';
             const originKey = filterOrigin.toLowerCase();
+            
+            // Get color from CSS variable for the header
             const originColor = getComputedStyle(document.documentElement).getPropertyValue(`--${originKey}`).trim();
 
+            // Update Header Appearance
             titleH1.innerText = filterOrigin;
             titleH1.style.color = originColor || 'var(--gold)';
-            titleH1.style.textShadow = `0 0 20px ${originColor}44`;
+            titleH1.style.textShadow = `0 0 25px ${originColor}55`;
             underline.style.background = `linear-gradient(90deg, transparent, ${originColor || 'var(--gold)'}, transparent)`;
 
+            // Update Header Icon
             iconImg.src = `origins/${originKey}.png`;
             iconImg.style.display = 'block';
 
+            // Filter and Render Players
             const players = Object.values(allPlayerData).filter(p => p.origin === filterOrigin);
 
             players.forEach((p, index) => {
@@ -245,7 +259,7 @@
 
                 const row = document.createElement('div');
                 row.className = `player-row ${originKey}`;
-                row.style.animationDelay = `${index * 0.05}s`; 
+                row.style.animationDelay = `${index * 0.06}s`; // Staggered entrance
                 
                 row.innerHTML = `
                     <img class="player-avatar" src="${renderUrl}" 
@@ -263,4 +277,3 @@
     </script>
 </body>
 </html>
-
